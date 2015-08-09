@@ -1,0 +1,109 @@
+@main("Take a sip of Sangria!") {
+
+  <section class="header">
+    <div class="container">
+      <div class="blog-header">
+        <img src="@routes.Assets.versioned("images/sip-of-sangria-1.svg")" />
+
+        <p>
+          This is an example of <a href="https://facebook.github.io/graphql" target="_blank">GraphQL</a> server written with <a href="https://www.playframework.com/" target="_blank">Play framework</a> and <a href="http://sangria-graphql.org/" target="_blank">Sangria</a>. It also serves as a playground -
+          on the right hand side you see a textual representation of the GraphQL schema which is implemented on the server and you can query here and on the left hand side
+          you can send a GraphQL query to the server and see the results of it's execution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-7 blog-main">
+        <section>
+          <h2>GraphQL Query</h2>
+          <div id="queryEditor"></div>
+        </section>
+
+        <a class="btn" data-toggle="collapse" data-target="#variablesSection" aria-expanded="false" aria-controls="variablesSection" style="margin-right: 10px">
+          Variables
+        </a>
+
+        <a class="btn" data-toggle="collapse" data-target="#configSection" aria-expanded="false" aria-controls="configSection">
+          Config
+        </a>
+
+        <a id="runButton" class="btn btn-primary" style="float: right">
+          <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+        </a>
+
+        <section id="configSection" class="collapse">
+          <h2>Config</h2>
+
+          <div class="input-group" style="margin-top: 20px">
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></span>
+            <input id="graphqlUrl" type="text" class="form-control" placeholder="GraphQL Endpoint URL" aria-describedby="basic-addon1"
+              value="@{play.api.Play.current.configuration.getString("defaultGraphQLUrl").getOrElse(s"http://localhost:${play.api.Play.current.configuration.getInt("http.port").getOrElse(9000)}/graphql")}">
+          </div>
+
+          <div class="input-group" style="margin-top: 20px">
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></span>
+            <input id="operation" type="text" class="form-control" placeholder="Operation" aria-describedby="basic-addon1">
+          </div>
+        </section>
+
+        <section id="variablesSection" class="collapse">
+          <h2>Variables</h2>
+          <div id="variablesEditor"></div>
+        </section>
+
+        <section id="errors" class="collapse">
+          <h2>Errors</h2>
+          <div id="responseError"></div>
+        </section>
+
+        <section id="response" class="collapse">
+          <h2>Response</h2>
+          <div id="responseEditor"></div>
+        </section>
+      </div>
+
+      <div class="col-sm-4 col-sm-offset-1">
+        <h2>Schema</h2>
+
+        <div id="schema">
+          <pre></pre>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="hotkeysDialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel">Shortcuts</h4>
+        </div>
+        <div class="modal-body">
+          <div class="shortcut-container">
+            <div class="shortcut"><kbd>?</kbd></div>
+            <div class="shortcut-text">This Help</div>
+
+            <br>
+            <div class="shortcut"><kbd>Ctrl&nbsp;+&nbsp;Enter</kbd></div>
+            <div class="shortcut-text">Execute</div>
+
+            <br>
+            <div class="shortcut"><kbd>v</kbd></div>
+            <div class="shortcut-text">Variables</div>
+
+            <br>
+            <div class="shortcut"><kbd>c</kbd></div>
+            <div class="shortcut-text">Config</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
