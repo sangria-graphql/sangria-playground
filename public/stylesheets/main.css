@@ -12,6 +12,26 @@ body {
   color: #F9E3D2;
 }
 
+.footer {
+  background-color: #DC7676;
+  color: #F9E3D2;
+
+  padding-top: 25px;
+  margin-top: 25px;
+  padding-bottom: 20px;
+}
+
+.footer pre {
+  background-color: #eb8484;
+  color: #F9E3D2;
+  font-size: 17px;
+  margin: 0;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
 p {
   font-size: 20px;
 }

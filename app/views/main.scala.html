@@ -7,9 +7,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>@title</title>
+    <meta name="keywords" content="sangria,scala,graphql,playframework" />
 
+    <title>@title</title>
 
     <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/bootstrap.min.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
@@ -24,6 +24,28 @@
   </head>
   <body>
     @content
+
+    <section class="footer">
+      <div class="container">
+        <div class="blog-header">
+          <p>
+            This is just a small deponstration. It really gets interesting when you start play with the schema on the server side. Fortunatelly it's
+            pretty eassy to do. <a href="https://facebook.github.io/graphql" target="_blank">sangria-playground</a> is available on the
+            <a href="https://github.com/sangria-graphql/sangria-playground" target="_blank">GitHub</a>, and since it's a simple Play application,
+            all it takes to start playground locally and start playing with schema is this:
+          </p>
+
+          <pre>$ git clone https://github.com/sangria-graphql/sangria-playground.git
+$ sbt run</pre>
+
+          <p>
+            How you are ready to point your browser to <a href="http://localhost:9000" target="_blank">http://localhost:9000</a> to see the same page you are seeing here.
+            The only prerequisites are <a href="http://www.scala-sbt.org/download.html" target="_blank">SBT</a> and <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">Java 8</a>.
+            It's also available as a <a href="https://www.typesafe.com/activator/template/sangria-playground" target="_blank">Typesafe Activator Template</a>.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
