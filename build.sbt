@@ -14,3 +14,8 @@ resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 routesGenerator := InjectedRoutesGenerator
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
+
+herokuAppName in Compile := "aqueous-hollows-6102"
+herokuConfigVars in Compile := Map(
+  "JAVA_OPTS" -> "-DgaCode=UA-65759630-2 -DdefaultGraphQLUrl=http://try.sangria-graphql.org/graphql"
+)
