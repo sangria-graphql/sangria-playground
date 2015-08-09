@@ -136,7 +136,7 @@ a.btn.btn-primary:active {
   border-color: #DC7676;
 }
 
-.btn-primary .glyphicon {
+.btn-primary .glyphicon, #permalink .glyphicon {
   top: 3px;
 }
 

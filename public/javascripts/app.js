@@ -153,4 +153,18 @@ $(function() {
     if (examples[e.target.id])
       setState(examples[e.target.id])
   })
+
+  $("#permalink").click(function () {
+    var queryParams = {
+      query: queryEditor.getValue()
+    }
+
+    if (variablesEditor.getValue().trim() !== '')
+      queryParams.args = variablesEditor.getValue().trim()
+
+    if ($("#operation").val() && $("#operation").val().trim !== '')
+      queryParams.operation = $("#operation").val()
+
+    History.pushState({state:1}, document.title, new URI().search(queryParams).search())
+  })
 })
