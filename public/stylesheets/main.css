@@ -50,6 +50,11 @@ a, a:hover, a:visited, a:focus {
   border-bottom: 1px solid;
 }
 
+#exampleSection a, #exampleSection a:hover, #exampleSection a:visited, #exampleSection a:focus {
+  color: #DC7676;
+  font-size: 20px;
+}
+
 .header a:hover {
   text-decoration: none;
   border: none;
@@ -189,6 +194,10 @@ a.btn.btn-primary:active {
 
 #responseEditor {
   height: 416px;
+}
+
+#variablesEditor {
+  height: 150px;
 }
 
 .ace_gutter {
