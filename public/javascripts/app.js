@@ -24,7 +24,7 @@ $(function() {
     },
 
     fragmentsExample: {
-      query: 'query FragmentExample {\n  human(id: "1003") {\n  ...Common\n    homePlanet\n  }\n\n  droid(id: "2001") {\n  ...Common\n    primaryFunction\n  }\n}\n\nfragment Common on Character {\n  name\n  appearsIn\n}'
+      query: 'query FragmentExample {\n  human(id: "1003") {\n    ...Common\n    homePlanet\n  }\n\n  droid(id: "2001") {\n    ...Common\n    primaryFunction\n  }\n}\n\nfragment Common on Character {\n  name\n  appearsIn\n}'
     }
   }
   
