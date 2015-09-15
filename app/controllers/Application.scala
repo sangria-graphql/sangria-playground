@@ -25,12 +25,27 @@ class Application @Inject() (system: ActorSystem) extends Controller {
     Ok(views.html.index())
   }
 
+  def graphiql = Action {
+    Ok(views.html.graphiql())
+  }
+
   val executor = Executor(
     schema = SchemaDefinition.StarWarsSchema,
     userContext = new CharacterRepo,
     deferredResolver = new FriendsResolver)
 
-  def graphql(query: String, args: Option[String], operation: Option[String]) = Action.async {
+  def graphql(query: String, args: Option[String], operation: Option[String]) =
+    Action.async(executeQuery(query, args, operation))
+
+  def graphqlBody = Action.async(parse.json) { request =>
+    val query = (request.body \ "query").as[String]
+    val args = (request.body \ "variables").asOpt[String]
+    val operation = (request.body \ "operation").asOpt[String]
+
+    executeQuery(query, args, operation)
+  }
+
+  private def executeQuery(query: String, args: Option[String], operation: Option[String]) =
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
@@ -50,7 +65,6 @@ class Application @Inject() (system: ActorSystem) extends Controller {
       case Failure(error) =>
         throw error
     }
-  }
 
   def renderSchema = Action.async {
     executor.execute(introspectionQuery) map (res =>
