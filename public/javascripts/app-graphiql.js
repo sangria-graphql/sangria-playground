@@ -68,9 +68,25 @@ $(function (global) {
           query: parameters.query,
           variables: parameters.variables,
           onEditQuery: onEditQuery,
-          onEditVariables: onEditVariables
+          onEditVariables: onEditVariables,
+          defaultQuery:
+            "# Welcome to GraphiQL\n" +
+            "#\n" +
+            "# GraphiQL is an in-browser IDE for writing, validating, and\n" +
+            "# testing GraphQL queries.\n" +
+            "#\n" +
+            "# Type queries into this side of the screen, and you will\n" +
+            "# see intelligent typeaheads aware of the current GraphQL type schema and\n" +
+            "# live syntax and validation errors highlighted within the text.\n" +
+            "#\n" +
+            "# To bring up the auto-complete at any point, just press Ctrl-Space.\n" +
+            "#\n" +
+            "# Press the run button above, or Cmd-Enter to execute the query, and the result\n" +
+            "# will appear in the pane to the right.\n\n" +
+            "query HeroAndFriends {\n  hero {\n    name\n    friends {\n      name\n    }\n  }\n}"
         }),
         elem
     );
   }
 }(window))
+
