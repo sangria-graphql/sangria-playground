@@ -48,7 +48,7 @@ object SchemaDefinition {
       fields[Unit, Human](
         Field("id", StringType,
           Some("The id of the human."),
-          resolve = _.value.id),
+          resolve = Projection("_id", _.value.id)),
         Field("name", OptionType(StringType),
           Some("The name of the human."),
           resolve = _.value.name),
