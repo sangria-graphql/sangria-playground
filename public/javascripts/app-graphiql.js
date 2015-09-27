@@ -89,4 +89,3 @@ $(function (global) {
     );
   }
 }(window))
-

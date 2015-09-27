@@ -80,7 +80,7 @@ $(function() {
     }
 
     if (variablesEditor.getValue().trim() !== '')
-      queryParams.args = variablesEditor.getValue().trim()
+      queryParams.variables = variablesEditor.getValue().trim()
 
     if ($("#operation").val() && $("#operation").val().trim !== '')
       queryParams.operation = $("#operation").val()

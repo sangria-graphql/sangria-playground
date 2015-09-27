@@ -10,7 +10,7 @@ import play.api.mvc._
 import sangria.execution.Executor
 import sangria.introspection.introspectionQuery
 import sangria.parser.{SyntaxError, QueryParser}
-import sangria.integration.PlayJsonSupport._
+import sangria.integration.playJson._
 
 import models.{FriendsResolver, CharacterRepo, SchemaDefinition}
 import sangria.renderer.SchemaRenderer
@@ -32,27 +32,28 @@ class Application @Inject() (system: ActorSystem) extends Controller {
   val executor = Executor(
     schema = SchemaDefinition.StarWarsSchema,
     userContext = new CharacterRepo,
-    deferredResolver = new FriendsResolver)
+    deferredResolver = new FriendsResolver,
+    maxQueryDepth = Some(7))
 
-  def graphql(query: String, args: Option[String], operation: Option[String]) =
-    Action.async(executeQuery(query, args, operation))
+  def graphql(query: String, variables: Option[String], operation: Option[String]) =
+    Action.async(executeQuery(query, variables, operation))
 
   def graphqlBody = Action.async(parse.json) { request =>
     val query = (request.body \ "query").as[String]
-    val args = (request.body \ "variables").asOpt[String]
+    val variables = (request.body \ "variables").asOpt[String]
     val operation = (request.body \ "operation").asOpt[String]
 
-    executeQuery(query, args, operation)
+    executeQuery(query, variables, operation)
   }
 
-  private def executeQuery(query: String, args: Option[String], operation: Option[String]) =
+  private def executeQuery(query: String, variables: Option[String], operation: Option[String]) =
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
       case Success(queryAst) =>
         executor.execute(queryAst,
           operationName = operation,
-          arguments = args map Json.parse) map (Ok(_))
+          variables = variables map Json.parse getOrElse Json.obj()) map (Ok(_))
 
       // can't parse GraphQL query, return error
       case Failure(error: SyntaxError) =>
