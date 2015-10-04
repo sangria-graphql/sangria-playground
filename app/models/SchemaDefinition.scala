@@ -49,7 +49,8 @@ object SchemaDefinition {
       fields[Unit, Human](
         Field("id", StringType,
           Some("The id of the human."),
-          resolve = Projection("_id", _.value.id)),
+          tags = ProjectionName("_id") :: Nil,
+          resolve = _.value.id),
         Field("name", OptionType(StringType),
           Some("The name of the human."),
           resolve = _.value.name),
@@ -71,7 +72,8 @@ object SchemaDefinition {
     fields[Unit, Droid](
       Field("id", StringType,
         Some("The id of the droid."),
-        resolve = Projection("_id", _.value.id)),
+        tags = ProjectionName("_id") :: Nil,
+        resolve = _.value.id),
       Field("name", OptionType(StringType),
         Some("The name of the droid."),
         resolve = ctx => Future.successful(ctx.value.name)),
