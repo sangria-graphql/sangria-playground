@@ -6,10 +6,12 @@ version := "1.0-SNAPSHOT"
 scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
+  filters,
   "org.sangria-graphql" %% "sangria" % "0.4.4-SNAPSHOT"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
+resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
 routesGenerator := InjectedRoutesGenerator
 
