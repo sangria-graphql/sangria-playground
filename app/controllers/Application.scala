@@ -33,27 +33,35 @@ class Application @Inject() (system: ActorSystem) extends Controller {
     schema = SchemaDefinition.StarWarsSchema,
     userContext = new CharacterRepo,
     deferredResolver = new FriendsResolver,
-    maxQueryDepth = Some(7))
+    maxQueryDepth = Some(10))
 
   def graphql(query: String, variables: Option[String], operation: Option[String]) =
-    Action.async(executeQuery(query, variables, operation))
+    Action.async(executeQuery(query, variables map parseVariables, operation))
 
   def graphqlBody = Action.async(parse.json) { request =>
     val query = (request.body \ "query").as[String]
-    val variables = (request.body \ "variables").asOpt[String]
     val operation = (request.body \ "operation").asOpt[String]
+
+    val variables = (request.body \ "variables").toOption.flatMap {
+      case JsString(vars) => Some(parseVariables(vars))
+      case obj: JsObject => Some(obj)
+      case _ => None
+    }
 
     executeQuery(query, variables, operation)
   }
 
-  private def executeQuery(query: String, variables: Option[String], operation: Option[String]) =
+  private def parseVariables(variables: String) =
+    if (variables.trim == "") Json.obj() else Json.parse(variables).as[JsObject]
+
+  private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String]) =
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
       case Success(queryAst) =>
         executor.execute(queryAst,
           operationName = operation,
-          variables = variables map Json.parse getOrElse Json.obj()) map (Ok(_))
+          variables = variables getOrElse Json.obj()) map (Ok(_))
 
       // can't parse GraphQL query, return error
       case Failure(error: SyntaxError) =>
