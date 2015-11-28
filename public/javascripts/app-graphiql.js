@@ -60,6 +60,18 @@ $(function (global) {
     });
   }
 
+  function setupZoom(percent) {
+    $('html > head').append($('<style>body {zoom: ' + percent + '%;}</style>'))
+  }
+
+  if (parameters['zoom']) {
+    setupZoom(parameters['zoom'])
+  }
+
+  if (parameters["hideVariables"]) {
+    $('html > head').append($('<style>.variable-editor {display: none !important}</style>'))
+  }
+
   global.renderGraphiql = function (elem) {
     // Render <GraphiQL /> into the body.
     React.render(
@@ -67,6 +79,7 @@ $(function (global) {
           fetcher: graphQLFetcher,
           query: parameters.query,
           variables: parameters.variables,
+          response: parameters.response,
           onEditQuery: onEditQuery,
           onEditVariables: onEditVariables,
           defaultQuery:
