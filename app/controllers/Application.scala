@@ -10,7 +10,7 @@ import play.api.mvc._
 import sangria.execution.Executor
 import sangria.introspection.introspectionQuery
 import sangria.parser.{SyntaxError, QueryParser}
-import sangria.integration.playJson._
+import sangria.marshalling.playJson._
 
 import models.{FriendsResolver, CharacterRepo, SchemaDefinition}
 import sangria.renderer.SchemaRenderer
