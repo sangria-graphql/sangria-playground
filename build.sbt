@@ -7,8 +7,8 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   filters,
-  "org.sangria-graphql" %% "sangria" % "0.5.1",
-  "org.sangria-graphql" %% "sangria-play-json" % "0.1.0"
+  "org.sangria-graphql" %% "sangria" % "0.5.2",
+  "org.sangria-graphql" %% "sangria-play-json" % "0.2.0"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
