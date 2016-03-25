@@ -70,8 +70,8 @@ $(function() {
       $("#variablesSection").collapse('hide')
     }
 
-    if (params.operation)
-      $("#operation").val(params.operation)
+    if (params.operationName)
+      $("#operation").val(params.operationName)
   }
 
   var execute = function () {
@@ -83,7 +83,7 @@ $(function() {
       queryParams.variables = variablesEditor.getValue().trim()
 
     if ($("#operation").val() && $("#operation").val().trim !== '')
-      queryParams.operation = $("#operation").val()
+      queryParams.operationName = $("#operation").val()
 
     var url = $("#graphqlUrl").val()
 
@@ -163,7 +163,7 @@ $(function() {
       queryParams.args = variablesEditor.getValue().trim()
 
     if ($("#operation").val() && $("#operation").val().trim !== '')
-      queryParams.operation = $("#operation").val()
+      queryParams.operationName = $("#operation").val()
 
     History.pushState({state:1}, document.title, new URI().search(queryParams).search())
   })
