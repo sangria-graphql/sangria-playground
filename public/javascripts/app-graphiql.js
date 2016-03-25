@@ -51,12 +51,23 @@ $(function (global) {
 
   // Defines a GraphQL fetcher using the fetch API.
   function graphQLFetcher(graphQLParams) {
+    console.info(graphQLParams)
     return fetch(window.location.origin + '/graphql', {
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(graphQLParams)
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(graphQLParams),
+      credentials: 'include'
     }).then(function (response) {
-      return response.json()
+      return response.text();
+    }).then(function (responseBody) {
+      try {
+        return JSON.parse(responseBody);
+      } catch (error) {
+        return responseBody;
+      }
     });
   }
 

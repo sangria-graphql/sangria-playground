@@ -32,7 +32,7 @@ class Application @Inject() (system: ActorSystem) extends Controller {
 
   def graphqlBody = Action.async(parse.json) { request =>
     val query = (request.body \ "query").as[String]
-    val operation = (request.body \ "operation").asOpt[String]
+    val operation = (request.body \ "operationName").asOpt[String]
 
     val variables = (request.body \ "variables").toOption.flatMap {
       case JsString(vars) => Some(parseVariables(vars))
