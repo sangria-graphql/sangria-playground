@@ -1,4 +1,5 @@
-@main("Take a sip of Sangria!") {
+@(googleAnalyticsCode:Option[String],defaultGraphQLUrl:String)
+@main("Take a sip of Sangria!", googleAnalyticsCode) {
 
   <section class="header">
     <div class="container">
@@ -57,7 +58,7 @@
           <div class="input-group" style="margin-top: 20px">
             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></span>
             <input id="graphqlUrl" type="text" class="form-control" placeholder="GraphQL Endpoint URL" aria-describedby="basic-addon1"
-              value="@{play.api.Play.current.configuration.getString("defaultGraphQLUrl").getOrElse(s"http://localhost:${play.api.Play.current.configuration.getInt("http.port").getOrElse(9000)}/graphql")}">
+              value="@{defaultGraphQLUrl}">
           </div>
 
           <div class="input-group" style="margin-top: 20px">
