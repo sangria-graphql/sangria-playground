@@ -7,7 +7,6 @@ import play.api.libs.json._
 import play.api.mvc._
 import play.api.Configuration
 
-
 import sangria.execution.{ErrorWithResolver, QueryAnalysisError, Executor}
 import sangria.parser.{SyntaxError, QueryParser}
 import sangria.marshalling.playJson._
