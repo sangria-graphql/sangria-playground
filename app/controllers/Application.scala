@@ -48,7 +48,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
   }
 
   private def parseVariables(variables: String) =
-    if (variables.trim == "") Json.obj() else Json.parse(variables).as[JsObject]
+    if (variables.trim == "" || variables.trim == "null") Json.obj() else Json.parse(variables).as[JsObject]
 
   private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String]) =
     QueryParser.parse(query) match {
