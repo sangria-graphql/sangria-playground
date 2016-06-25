@@ -1,4 +1,4 @@
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.3")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.4")
 addSbtPlugin("com.heroku" % "sbt-heroku" % "0.4.3")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.0")
