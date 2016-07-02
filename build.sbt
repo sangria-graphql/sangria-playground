@@ -7,7 +7,7 @@ scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
   filters,
-  "org.sangria-graphql" %% "sangria" % "0.7.0",
+  "org.sangria-graphql" %% "sangria" % "0.7.1",
   "org.sangria-graphql" %% "sangria-play-json" % "0.3.2"
 )
 
@@ -18,7 +18,7 @@ routesGenerator := InjectedRoutesGenerator
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-herokuAppName in Compile := "aqueous-hollows-6102"
+herokuAppName in Compile := "sangria-playground"
 herokuConfigVars in Compile := Map(
   "JAVA_OPTS" -> "-DgaCode=UA-65759630-2 -DdefaultGraphQLUrl=http://try.sangria-graphql.org/graphql"
 )
