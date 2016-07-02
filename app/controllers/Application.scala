@@ -21,7 +21,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
   import system.dispatcher
 
   val googleAnalyticsCode = config.getString("gaCode")
-  val defaultGraphQLUrl = config.getString("defaultGraphQLUrl").getOrElse(s"http://localhost:${config.getInt("http.port").getOrElse(9000)}")+"/graphql"
+  val defaultGraphQLUrl = config.getString("defaultGraphQLUrl").getOrElse(s"http://localhost:${config.getInt("http.port").getOrElse(9000)}/graphql")
 
   def index = Action {
     Ok(views.html.index(googleAnalyticsCode,defaultGraphQLUrl))
