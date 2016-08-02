@@ -20,4 +20,4 @@ $ sbt run
 
 Now you are ready to point your browser to [http://localhost:9000](http://localhost:9000).
 The only prerequisites are [SBT](http://www.scala-sbt.org/download.html) and [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
-The playground is also available as a [Typesafe Activator Template](https://www.typesafe.com/activator/template/sangria-playground).
+Sangria playground is also available as a [Typesafe Activator Template](https://www.typesafe.com/activator/template/sangria-playground).
