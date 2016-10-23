@@ -6,12 +6,11 @@ import akka.actor.ActorSystem
 import play.api.libs.json._
 import play.api.mvc._
 import play.api.Configuration
-
-import sangria.execution.{ErrorWithResolver, QueryAnalysisError, Executor}
-import sangria.parser.{SyntaxError, QueryParser}
+import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
+import sangria.parser.{QueryParser, SyntaxError}
 import sangria.marshalling.playJson._
-
-import models.{FriendsResolver, CharacterRepo, SchemaDefinition}
+import models.{CharacterRepo, SchemaDefinition}
+import sangria.execution.deferred.DeferredResolver
 import sangria.renderer.SchemaRenderer
 
 import scala.concurrent.Future
@@ -34,14 +33,14 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
   def graphql(query: String, variables: Option[String], operation: Option[String]) =
     Action.async(executeQuery(query, variables map parseVariables, operation))
 
-  def graphqlBody = Action.async(parse.json) { request =>
+  def graphqlBody = Action.async(parse.json) { request ⇒
     val query = (request.body \ "query").as[String]
     val operation = (request.body \ "operationName").asOpt[String]
 
     val variables = (request.body \ "variables").toOption.flatMap {
-      case JsString(vars) => Some(parseVariables(vars))
-      case obj: JsObject => Some(obj)
-      case _ => None
+      case JsString(vars) ⇒ Some(parseVariables(vars))
+      case obj: JsObject ⇒ Some(obj)
+      case _ ⇒ None
     }
 
     executeQuery(query, variables, operation)
@@ -54,11 +53,11 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
-      case Success(queryAst) =>
+      case Success(queryAst) ⇒
         Executor.execute(SchemaDefinition.StarWarsSchema, queryAst, new CharacterRepo,
             operationName = operation,
             variables = variables getOrElse Json.obj(),
-            deferredResolver = new FriendsResolver,
+            deferredResolver = DeferredResolver.fetchers(SchemaDefinition.characters),
             maxQueryDepth = Some(10))
           .map(Ok(_))
           .recover {
@@ -67,14 +66,14 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
           }
 
       // can't parse GraphQL query, return error
-      case Failure(error: SyntaxError) =>
+      case Failure(error: SyntaxError) ⇒
         Future.successful(BadRequest(Json.obj(
-          "syntaxError" -> error.getMessage,
-          "locations" -> Json.arr(Json.obj(
-            "line" -> error.originalError.position.line,
-            "column" -> error.originalError.position.column)))))
+          "syntaxError" → error.getMessage,
+          "locations" → Json.arr(Json.obj(
+            "line" → error.originalError.position.line,
+            "column" → error.originalError.position.column)))))
 
-      case Failure(error) =>
+      case Failure(error) ⇒
         throw error
     }
 
