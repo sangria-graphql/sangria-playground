@@ -1,6 +1,4 @@
-@(googleAnalyticsCode: Option[String])
-<!DOCTYPE html>
-
+@()<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -10,7 +8,7 @@
 
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
 
-    <title>Take a sip of Sangria with GraphiQL!</title>
+    <title>GraphiQL</title>
 
     <link href="//cdn.jsdelivr.net/graphiql/0.7.8/graphiql.css" rel="stylesheet" />
 
@@ -42,17 +40,5 @@
     <script>
       renderGraphiql(document.getElementById('graphiql'))
     </script>
-
-    @if(googleAnalyticsCode.isDefined) {
-      <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', '@googleAnalyticsCode.get', 'auto');
-      ga('send', 'pageview');
-      </script>
-    }
   </body>
 </html>

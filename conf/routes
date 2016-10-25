@@ -3,11 +3,10 @@
 # ~~~~
 
 # Home page
-GET        /                     controllers.Application.index
-GET        /graphql              controllers.Application.graphql(query: String, variables: Option[String], operation: Option[String])
-POST       /graphql              controllers.Application.graphqlBody
-GET        /render-schema        controllers.Application.renderSchema
-GET        /graphiql             controllers.Application.graphiql
+GET        /                     controllers.HomeController.index
+GET        /graphql              controllers.HomeController.graphql(query: String, variables: Option[String], operation: Option[String])
+POST       /graphql              controllers.HomeController.graphqlBody
+GET        /schema               controllers.HomeController.renderSchema
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)
