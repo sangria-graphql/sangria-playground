@@ -6,7 +6,7 @@ import akka.actor.ActorSystem
 import play.api.libs.json._
 import play.api.mvc._
 import play.api.Configuration
-import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
+import sangria.execution._
 import sangria.parser.{QueryParser, SyntaxError}
 import sangria.marshalling.playJson._
 import models.{CharacterRepo, SchemaDefinition}
@@ -58,7 +58,10 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
             operationName = operation,
             variables = variables getOrElse Json.obj(),
             deferredResolver = DeferredResolver.fetchers(SchemaDefinition.characters),
-            maxQueryDepth = Some(10))
+            exceptionHandler = exceptionHandler,
+            queryReducers = List(
+              QueryReducer.rejectMaxDepth[CharacterRepo](10),
+              QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)))
           .map(Ok(_))
           .recover {
             case error: QueryAnalysisError ⇒ BadRequest(error.resolveError)
@@ -80,4 +83,11 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
   def renderSchema = Action {
     Ok(SchemaRenderer.renderSchema(SchemaDefinition.StarWarsSchema))
   }
+
+  lazy val exceptionHandler: Executor.ExceptionHandler = {
+    case (_, error @ TooComplexQueryError) ⇒ HandledException(error.getMessage)
+    case (_, error @ MaxQueryDepthReachedError(_)) ⇒ HandledException(error.getMessage)
+  }
+
+  case object TooComplexQueryError extends Exception("Query is too expensive.")
 }
