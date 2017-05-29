@@ -60,7 +60,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
             deferredResolver = DeferredResolver.fetchers(SchemaDefinition.characters),
             exceptionHandler = exceptionHandler,
             queryReducers = List(
-              QueryReducer.rejectMaxDepth[CharacterRepo](10),
+              QueryReducer.rejectMaxDepth[CharacterRepo](15),
               QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)))
           .map(Ok(_))
           .recover {

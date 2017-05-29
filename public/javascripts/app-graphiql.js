@@ -84,7 +84,7 @@ $(function (global) {
 
   global.renderGraphiql = function (elem) {
     // Render <GraphiQL /> into the body.
-    React.render(
+    ReactDOM.render(
         React.createElement(GraphiQL, {
           fetcher: graphQLFetcher,
           query: parameters.query,
