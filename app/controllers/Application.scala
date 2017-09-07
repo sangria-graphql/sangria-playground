@@ -84,7 +84,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
     Ok(SchemaRenderer.renderSchema(SchemaDefinition.StarWarsSchema))
   }
 
-  lazy val exceptionHandler: Executor.ExceptionHandler = {
+  lazy val exceptionHandler = ExceptionHandler {
     case (_, error @ TooComplexQueryError) ⇒ HandledException(error.getMessage)
     case (_, error @ MaxQueryDepthReachedError(_)) ⇒ HandledException(error.getMessage)
   }
