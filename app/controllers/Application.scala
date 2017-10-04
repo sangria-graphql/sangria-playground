@@ -16,7 +16,7 @@ import sangria.renderer.SchemaRenderer
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-class Application @Inject() (system: ActorSystem, config: Configuration) extends Controller {
+class Application @Inject() (system: ActorSystem, config: Configuration) extends InjectedController {
   import system.dispatcher
 
   val googleAnalyticsCode = config.getString("gaCode")
