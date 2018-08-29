@@ -1,7 +1,6 @@
 package controllers
 
 import javax.inject.Inject
-
 import akka.actor.ActorSystem
 import play.api.libs.json._
 import play.api.mvc._
@@ -12,6 +11,7 @@ import sangria.marshalling.playJson._
 import models.{CharacterRepo, SchemaDefinition}
 import sangria.execution.deferred.DeferredResolver
 import sangria.renderer.SchemaRenderer
+import sangria.slowlog.SlowLog
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -26,12 +26,13 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
     Ok(views.html.index(googleAnalyticsCode,defaultGraphQLUrl))
   }
 
-  def graphiql = Action {
-    Ok(views.html.graphiql(googleAnalyticsCode))
+  def playground = Action {
+    Ok(views.html.playground(googleAnalyticsCode))
   }
 
-  def graphql(query: String, variables: Option[String], operation: Option[String]) =
-    Action.async(executeQuery(query, variables map parseVariables, operation))
+  def graphql(query: String, variables: Option[String], operation: Option[String]) = Action.async { request ⇒
+    executeQuery(query, variables map parseVariables, operation, isTracingEnabled(request))
+  }
 
   def graphqlBody = Action.async(parse.json) { request ⇒
     val query = (request.body \ "query").as[String]
@@ -43,13 +44,13 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
       case _ ⇒ None
     }
 
-    executeQuery(query, variables, operation)
+    executeQuery(query, variables, operation, isTracingEnabled(request))
   }
 
   private def parseVariables(variables: String) =
     if (variables.trim == "" || variables.trim == "null") Json.obj() else Json.parse(variables).as[JsObject]
 
-  private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String]) =
+  private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String], tracing: Boolean) =
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
@@ -61,7 +62,8 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
             exceptionHandler = exceptionHandler,
             queryReducers = List(
               QueryReducer.rejectMaxDepth[CharacterRepo](15),
-              QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)))
+              QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)),
+            middleware = if (tracing) SlowLog.apolloTracing :: Nil else Nil)
           .map(Ok(_))
           .recover {
             case error: QueryAnalysisError ⇒ BadRequest(error.resolveError)
@@ -79,6 +81,8 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
       case Failure(error) ⇒
         throw error
     }
+
+  def isTracingEnabled(request: Request[_]) = request.headers.get("X-Apollo-Tracing").isDefined
 
   def renderSchema = Action {
     Ok(SchemaRenderer.renderSchema(SchemaDefinition.StarWarsSchema))
