@@ -1,5 +1,6 @@
 import models.{CharacterRepo, SchemaDefinition}
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import play.api.libs.json.{JsObject, JsString, Json}
 import sangria.ast.Document
 
@@ -11,7 +12,7 @@ import sangria.execution.Executor
 import sangria.execution.deferred.DeferredResolver
 import sangria.marshalling.playJson._
 
-class SchemaSpec extends WordSpec with Matchers {
+class SchemaSpec extends AnyWordSpec with Matchers {
   "StartWars Schema" should {
     "correctly identify R2-D2 as the hero of the Star Wars Saga" in {
       val query =

@@ -1,0 +1,11 @@
+{
+  "name": "Sangria Play Example",
+  "description": "An example GraphQL server written with akka-http and sangria.",
+  "repository": "https://github.com/sangria-graphql/sangria-playground",
+  "logo": "https://raw.githubusercontent.com/sangria-graphql/sangria-logo/master/sangria-icon.png",
+  "keywords": [
+    "scala",
+    "sangria",
+    "graphql"
+  ]
+}
