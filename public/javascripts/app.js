@@ -108,7 +108,10 @@ $(function() {
     })
     .fail(function (error) {
       if (error.status === 400 && error.responseJSON && error.responseJSON.syntaxError)
-      $("#responseError").html($("<pre>").html(error.responseJSON.syntaxError))
+        $("#responseError").html($("<pre>").html(error.responseJSON.syntaxError))
+
+      if (error.status === 400 && error.responseJSON && error.responseJSON.errors)
+        $("#responseError").html($("<pre>").html(error.responseJSON.errors[0].message))
 
       $("#response").collapse('hide')
       $("#errors").collapse('show')
