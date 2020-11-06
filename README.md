@@ -3,7 +3,7 @@
 This is an example of a [GraphQL](https://facebook.github.io/graphql) server written with [Play framework](https://www.playframework.com) and
 [Sangria](http://sangria-graphql.org). 
 
-If you'd like to explore a GraphQL server built with Sangria you may do so here: https://sangria-example.herokuapp.com/graphql. On the right hand side you can see a textual representation of the GraphQL
+If you'd like to explore a GraphQL server built with Sangria you may do so here: [Sangria Playground](https://sangria-example.herokuapp.com/graphql). On the right hand side you can see a textual representation of the GraphQL
 schema which is implemented on the server and that you can query here. On the left hand side
 you can execute a GraphQL queries and see the results of its execution.
 
