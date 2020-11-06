@@ -5,10 +5,6 @@ This is an example of a [GraphQL](https://facebook.github.io/graphql) server wri
 schema which is implemented on the server and that you can query here. On the left hand side
 you can execute a GraphQL queries and see the results of its execution.
 
-It's available here:
-
-[http://try.sangria-graphql.org](http://try.sangria-graphql.org)
-
 This is just a small demonstration. It really gets interesting when you start to play with the schema on the server side. Fortunately it's
 pretty easy to do. Since it's a simple Play application, all it takes to start playground locally and start playing with the schema is this:
 
