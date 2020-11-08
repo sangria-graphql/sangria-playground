@@ -30,18 +30,18 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
     Ok(views.html.playground(googleAnalyticsCode))
   }
 
-  def graphql(query: String, variables: Option[String], operation: Option[String]) = Action.async { request ⇒
+  def graphql(query: String, variables: Option[String], operation: Option[String]) = Action.async { request =>
     executeQuery(query, variables map parseVariables, operation, isTracingEnabled(request))
   }
 
-  def graphqlBody = Action.async(parse.json) { request ⇒
+  def graphqlBody = Action.async(parse.json) { request =>
     val query = (request.body \ "query").as[String]
     val operation = (request.body \ "operationName").asOpt[String]
 
     val variables = (request.body \ "variables").toOption.flatMap {
-      case JsString(vars) ⇒ Some(parseVariables(vars))
-      case obj: JsObject ⇒ Some(obj)
-      case _ ⇒ None
+      case JsString(vars) => Some(parseVariables(vars))
+      case obj: JsObject => Some(obj)
+      case _ => None
     }
 
     executeQuery(query, variables, operation, isTracingEnabled(request))
@@ -54,7 +54,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
-      case Success(queryAst) ⇒
+      case Success(queryAst) =>
         Executor.execute(SchemaDefinition.StarWarsSchema, queryAst, new CharacterRepo,
             operationName = operation,
             variables = variables getOrElse Json.obj(),
@@ -62,23 +62,23 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
             exceptionHandler = exceptionHandler,
             queryReducers = List(
               QueryReducer.rejectMaxDepth[CharacterRepo](15),
-              QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)),
+              QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) => TooComplexQueryError)),
             middleware = if (tracing) SlowLog.apolloTracing :: Nil else Nil)
           .map(Ok(_))
           .recover {
-            case error: QueryAnalysisError ⇒ BadRequest(error.resolveError)
-            case error: ErrorWithResolver ⇒ InternalServerError(error.resolveError)
+            case error: QueryAnalysisError => BadRequest(error.resolveError)
+            case error: ErrorWithResolver => InternalServerError(error.resolveError)
           }
 
       // can't parse GraphQL query, return error
-      case Failure(error: SyntaxError) ⇒
+      case Failure(error: SyntaxError) =>
         Future.successful(BadRequest(Json.obj(
-          "syntaxError" → error.getMessage,
-          "locations" → Json.arr(Json.obj(
-            "line" → error.originalError.position.line,
-            "column" → error.originalError.position.column)))))
+          "syntaxError" -> error.getMessage,
+          "locations" -> Json.arr(Json.obj(
+            "line" -> error.originalError.position.line,
+            "column" -> error.originalError.position.column)))))
 
-      case Failure(error) ⇒
+      case Failure(error) =>
         throw error
     }
 
@@ -89,8 +89,8 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
   }
 
   lazy val exceptionHandler = ExceptionHandler {
-    case (_, error @ TooComplexQueryError) ⇒ HandledException(error.getMessage)
-    case (_, error @ MaxQueryDepthReachedError(_)) ⇒ HandledException(error.getMessage)
+    case (_, error @ TooComplexQueryError) => HandledException(error.getMessage)
+    case (_, error @ MaxQueryDepthReachedError(_)) => HandledException(error.getMessage)
   }
 
   case object TooComplexQueryError extends Exception("Query is too expensive.")
