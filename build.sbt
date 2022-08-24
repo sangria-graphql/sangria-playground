@@ -8,7 +8,7 @@ scalaVersion := "2.13.3"
 libraryDependencies ++= Seq(
   guice,
   filters,
-  "org.sangria-graphql" %% "sangria" % "2.0.1",
+  "org.sangria-graphql" %% "sangria" % "2.1.6",
   "org.sangria-graphql" %% "sangria-slowlog" % "2.0.1",
   "org.sangria-graphql" %% "sangria-play-json" % "2.0.1",
   "org.scalatest" %% "scalatest" % "3.1.4" % "test")
