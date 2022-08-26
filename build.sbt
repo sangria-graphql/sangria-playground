@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   filters,
   "org.sangria-graphql" %% "sangria" % "2.1.6",
   "org.sangria-graphql" %% "sangria-slowlog" % "2.0.1",
-  "org.sangria-graphql" %% "sangria-play-json" % "2.0.1",
+  "org.sangria-graphql" %% "sangria-play-json" % "2.0.2",
   "org.scalatest" %% "scalatest" % "3.2.13" % "test")
 
 routesGenerator := InjectedRoutesGenerator
