@@ -14,6 +14,4 @@ libraryDependencies ++= Seq(
   "org.sangria-graphql" %% "sangria-play-json" % "2.0.2",
   "org.scalatest" %% "scalatest" % "3.2.15" % "test")
 
-routesGenerator := InjectedRoutesGenerator
-
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
