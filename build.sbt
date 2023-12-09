@@ -3,7 +3,7 @@ description := "An example of GraphQL server written with Play and Sangria."
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.13.10"
+scalaVersion := "2.13.12"
 
 libraryDependencies ++= Seq(
   guice,
