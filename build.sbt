@@ -9,7 +9,7 @@ libraryDependencies ++= Seq(
   guice,
   filters,
   "ch.qos.logback" % "logback-classic" % "1.4.14",
-  "org.sangria-graphql" %% "sangria" % "3.5.3",
+  "org.sangria-graphql" %% "sangria" % "4.2.3",
   "org.sangria-graphql" %% "sangria-slowlog" % "2.0.5",
   "org.sangria-graphql" %% "sangria-play-json" % "2.0.2",
   "org.scalatest" %% "scalatest" % "3.2.17" % "test")
