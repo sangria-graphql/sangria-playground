@@ -3,14 +3,14 @@ description := "An example of GraphQL server written with Play and Sangria."
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.13.12"
+scalaVersion := "2.13.14"
 
 libraryDependencies ++= Seq(
   guice,
   filters,
-  "ch.qos.logback" % "logback-classic" % "1.4.14",
-  "org.sangria-graphql" %% "sangria" % "3.5.3",
-  "org.sangria-graphql" %% "sangria-slowlog" % "2.0.5",
+  "ch.qos.logback" % "logback-classic" % "1.5.7",
+  "org.sangria-graphql" %% "sangria" % "4.1.1",
+  "org.sangria-graphql" %% "sangria-slowlog" % "3.0.0",
   "org.sangria-graphql" %% "sangria-play-json" % "2.0.2",
   "org.scalatest" %% "scalatest" % "3.2.19" % "test")
 
